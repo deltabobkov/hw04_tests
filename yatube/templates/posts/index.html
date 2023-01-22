@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Последние обновления на сайте
+{% endblock %} 
+
+{% block content %}  
+  <h1>
+    Последние обновления на сайте
+  </h1>
+  <br>
+  {% for posts in page_obj %}
+    <article>
+      {% include 'includes/author.html' %}
+      <p>
+        {{ posts.text }}
+      </p>
+      <a href="{% url 'posts:post_detail' posts.id %}">
+        подробная информация 
+      </a><br>    
+      {% if posts.group %}   
+        <a href="{% url 'posts:group_list' posts.group.slug %}">
+          все записи группы
+        </a>
+      {% endif %}
+    </article>   
+    {% if not forloop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+  {% include 'posts/includes/paginator.html' %} 
+{% endblock %}
