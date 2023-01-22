@@ -43,14 +43,18 @@ class PostPagesTests(TestCase):
                 "posts:post_detail", kwargs={"post_id": f"{self.post.id}"}
             ),
             "posts/create_post.html": reverse("posts:post_create"),
-            "posts/create_post.html": reverse(
-                "posts:post_edit", kwargs={"post_id": f"{self.post.id}"}
-            ),
         }
         for template, reverse_name in templates_pages_names.items():
             with self.subTest(reverse_name=reverse_name):
                 response = self.authorized_client.get(reverse_name)
                 self.assertTemplateUsed(response, template)
+
+    def test_pages_uses_correct_template(self):
+        """URL-адрес редактирования поста использует соответствующий шаблон."""
+        response = self.authorized_client.get(
+            reverse("posts:post_edit", kwargs={"post_id": f"{self.post.id}"})
+        )
+        self.assertTemplateUsed(response, "posts/create_post.html")
 
     def test_index_page_show_correct_context(self):
         """Шаблон index сформирован с правильным контекстом."""
