@@ -10,6 +10,7 @@ class PostURLTests(TestCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.user = User.objects.create_user(username="user1")
+        cls.user_1 = User.objects.create_user(username="HasNoName")
         cls.group = Group.objects.create(
             title="Тестовая группа",
             slug="test-slug",
@@ -36,9 +37,8 @@ class PostURLTests(TestCase):
 
     def setUp(self):
         self.guest_client = Client()
-        self.user = User.objects.create_user(username="HasNoName")
         self.authorized_client = Client()
-        self.authorized_client.force_login(self.user)
+        self.authorized_client.force_login(self.user_1)
         self.author_client = Client()
         self.author_client.force_login(PostURLTests.user)
 
@@ -85,4 +85,4 @@ class StaticURLTests(TestCase):
 
     def test_homepage(self):
         response = self.guest_client.get("/")
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, HTTPStatus.OK)

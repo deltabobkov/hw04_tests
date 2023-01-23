@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth import get_user_model
 from django.test import Client, TestCase
 from django.urls import reverse
+
 from posts.models import Group, Post
 
 User = get_user_model()
@@ -174,7 +175,7 @@ class PaginatorViewsTest(TestCase):
             slug="test-slug",
             description="Тестовое описание",
         )
-        cls.post: list = []
+        cls.post = []
         for i in range(13):
             cls.post.append(
                 Post(
